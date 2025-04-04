@@ -8,7 +8,6 @@ function preload() {
   game.load.spritesheet('block', 'assets/block.png', 134, 134);
   game.load.spritesheet('afterHit', 'assets/afterHit.png', 260, 300);
   game.load.image('up', 'assets/up.png')
-  game.load.image('down', 'assets/down.png')
   game.load.image('right', 'assets/right.png')
   game.load.image('left', 'assets/left.png')
 }
@@ -20,7 +19,6 @@ var jumpButton;
 var runButton;
 var result;
 var btnUp;
-var btnDown;
 var btnLeft;
 var btnRight;
 
@@ -43,18 +41,15 @@ var question2 = {
 
 function create() {
 
-  var btnScale = 0.4
-  btnUp = game.add.sprite(200, 300, 'up');
+  var btnScale = 0.2
+  btnUp = game.add.sprite(50, 300, 'up');
   btnUp.scale.setTo(btnScale, btnScale);
-  btnDown = game.add.sprite(200, 515, 'down');
-  btnDown.scale.setTo(btnScale, btnScale);
-  btnLeft = game.add.sprite(90, 410, 'left');
+  btnLeft = game.add.sprite(1200, 300, 'left');
   btnLeft.scale.setTo(btnScale, btnScale);
-  btnRight = game.add.sprite(310, 410, 'right');
+  btnRight = game.add.sprite(1300, 300, 'right');
   btnRight.scale.setTo(btnScale, btnScale);
 
   btnUp.inputEnabled = true;
-  btnDown.inputEnabled = true;
   btnRight.inputEnabled = true;
   btnLeft.inputEnabled = true;
 
@@ -73,18 +68,6 @@ function create() {
   });
 
   //////////////
-
-  btnDown.events.onInputDown.add(function () {
-    touch['down'] = true;
-  });
-
-  btnDown.events.onInputUp.add(function () {
-    touch['down'] = false;
-  });
-
-  btnDown.events.onInputOut.add(function () {
-    touch['down'] = false;
-  });
 
   //////////////
 
