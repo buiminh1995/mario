@@ -44,9 +44,9 @@ function create() {
   var btnScale = 0.2
   btnUp = game.add.sprite(50, 300, 'up');
   btnUp.scale.setTo(btnScale, btnScale);
-  btnLeft = game.add.sprite(1200, 300, 'left');
+  btnLeft = game.add.sprite(700, 300, 'left');
   btnLeft.scale.setTo(btnScale, btnScale);
-  btnRight = game.add.sprite(1300, 300, 'right');
+  btnRight = game.add.sprite(800, 300, 'right');
   btnRight.scale.setTo(btnScale, btnScale);
 
   btnUp.inputEnabled = true;
