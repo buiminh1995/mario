@@ -3,10 +3,11 @@ var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '
 // var plugin;
 function preload() {
   game.load.tilemap('objects', 'assets/map1-1.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.image('text', 'assets/text.png');
   game.load.image('tiles', 'assets/items2.png');
   game.load.spritesheet('mario', 'assets/marioSmall.png', 34, 34, 7);
   game.load.spritesheet('block', 'assets/block.png', 134, 134);
-  game.load.spritesheet('afterHit', 'assets/afterHit.png', 260, 300);
+  game.load.spritesheet('afterHit', 'assets/afterHit.png', 134, 134);
   game.load.image('up', 'assets/up.png')
   game.load.image('right', 'assets/right.png')
   game.load.image('left', 'assets/left.png')
@@ -21,6 +22,7 @@ var result;
 var btnUp;
 var btnLeft;
 var btnRight;
+// var displayText = false;
 
 var touch = { up: false, down: false, left: false, right: false };
 
@@ -32,11 +34,31 @@ var mario = {
 }
 
 var question = {
-  sprite: undefined,
+  sprite: undefined
 }
 
 var question2 = {
-  sprite: undefined,
+  sprite: undefined
+}
+
+var question3 = {
+  sprite: undefined
+}
+
+var question4 = {
+  sprite: undefined
+}
+
+var question5 = {
+  sprite: undefined
+}
+
+var question6 = {
+  sprite: undefined
+}
+
+var question7 = {
+  sprite: undefined
 }
 
 function create() {
@@ -44,10 +66,13 @@ function create() {
   var btnScale = 0.2
   btnUp = game.add.sprite(50, 300, 'up');
   btnUp.scale.setTo(btnScale, btnScale);
-  btnLeft = game.add.sprite(700, 300, 'left');
+  btnLeft = game.add.sprite(800, 300, 'left');
   btnLeft.scale.setTo(btnScale, btnScale);
-  btnRight = game.add.sprite(800, 300, 'right');
+  btnRight = game.add.sprite(900, 300, 'right');
   btnRight.scale.setTo(btnScale, btnScale);
+  btnUp.fixedToCamera = true;
+  btnRight.fixedToCamera = true;
+  btnLeft.fixedToCamera = true;
 
   btnUp.inputEnabled = true;
   btnRight.inputEnabled = true;
@@ -130,6 +155,8 @@ function create() {
   question.sprite.body.immovable = true;
   question.sprite.body.allowGravity = false;
   question.sprite.hit = false;
+  question.sprite.text = false;
+
 
   question2.sprite = game.add.sprite(368, 160, 'block')
   question2.sprite.scale.setTo(0.12, 0.12);
@@ -137,6 +164,48 @@ function create() {
   question2.sprite.body.immovable = true;
   question2.sprite.body.allowGravity = false;
   question2.sprite.hit = false;
+  question2.sprite.text = false;
+
+  question3.sprite = game.add.sprite(350, 80, 'block')
+  question3.sprite.scale.setTo(0.12, 0.12);
+  game.physics.arcade.enable(question3.sprite);
+  question3.sprite.body.immovable = true;
+  question3.sprite.body.allowGravity = false;
+  question3.sprite.hit = false;
+  question3.sprite.text = false;
+
+  question4.sprite = game.add.sprite(725, 80, 'block')
+  question4.sprite.scale.setTo(0.12, 0.12);
+  game.physics.arcade.enable(question4.sprite);
+  question4.sprite.body.immovable = true;
+  question4.sprite.body.allowGravity = false;
+  question4.sprite.hit = false;
+  question4.sprite.text = false;
+
+  question5.sprite = game.add.sprite(1248, 160, 'block')
+  question5.sprite.scale.setTo(0.12, 0.12);
+  game.physics.arcade.enable(question5.sprite);
+  question5.sprite.body.immovable = true;
+  question5.sprite.body.allowGravity = false;
+  question5.sprite.hit = false;
+  question5.sprite.text = false;
+
+  question6.sprite = game.add.sprite(1330, 30, 'block')
+  question6.sprite.scale.setTo(0.12, 0.12);
+  game.physics.arcade.enable(question6.sprite);
+  question6.sprite.body.immovable = true;
+  question6.sprite.body.allowGravity = false;
+  question6.sprite.hit = false;
+  question6.sprite.text = true;
+
+  question7.sprite = game.add.sprite(1470, 160, 'block')
+  question7.sprite.scale.setTo(0.12, 0.12);
+  game.physics.arcade.enable(question7.sprite);
+  question7.sprite.body.immovable = true;
+  question7.sprite.body.allowGravity = false;
+  question7.sprite.hit = false;
+  question7.sprite.text = false;
+
 
   mario.sprite.scale.setTo(0.47, 0.47);
   mario.sprite.anchor.x=0.5;
@@ -164,26 +233,46 @@ function create() {
 };
 
 function hitBlock (player, block) {
-  if(player.body.velocity.y == 0 && player.body.bottom - player.body.y <= block.body.bottom){
-    console.log('hello')
-      if(!block.hit){
-        block.hit = true
-        let tweenUp = game.add.tween(block).to({y: block.y - 20}, 100, Phaser.Easing.Quadratic.Out, true)
+  if(!block.hit){
+    // if(player.body.velocity.y == 0 && player.body.y <= block.body.bottom + 5 && player.body.y > block.body.bottom - (block.body.bottom - block.body.y)/2){
+    if(player.body.touching.up && block.body.touching.down){
+      console.log('hello')
+      block.hit = true
+      let tweenUp = game.add.tween(block).to({y: block.y - 20}, 100, Phaser.Easing.Quadratic.Out, true)
 
-        tweenUp.onComplete.add(() => {
-          game.add.tween(block).to({y: block.y + 20}, 100, Phaser.Easing.Quadratic.In, true);
-        
-          block.loadTexture('afterHit')
-        })
-      }
+      tweenUp.onComplete.add(() => {
+        game.add.tween(block).to({y: block.y + 20}, 100, Phaser.Easing.Quadratic.In, true);
+      
+        block.loadTexture('afterHit')
+
+        if(block.text){
+          var txt = game.add.sprite(225,100,'text')
+          txt.fixedToCamera = true;
+          txt.scale.setTo(0.55, 0.55);
+
+        }
+      })
     }
+  }
 }
 
 
 function update(){
   game.physics.arcade.collide(mario.sprite, layer);
+
   game.physics.arcade.collide(mario.sprite, question.sprite, hitBlock);
+  // fixMarioOverlap(mario.sprite, question.sprite)
   game.physics.arcade.collide(mario.sprite, question2.sprite, hitBlock);
+
+  game.physics.arcade.collide(mario.sprite, question3.sprite, hitBlock);
+  game.physics.arcade.collide(mario.sprite, question4.sprite, hitBlock);
+  game.physics.arcade.collide(mario.sprite, question5.sprite, hitBlock);
+  game.physics.arcade.collide(mario.sprite, question6.sprite, hitBlock);
+  game.physics.arcade.collide(mario.sprite, question7.sprite, hitBlock);
+
+
+
+
 
 
   mario.doNothing = true;
@@ -199,6 +288,7 @@ function update(){
     }
 
     mario.sprite.body.velocity.x -= 5;
+
     if(runButton.isDown){
       if(mario.sprite.body.velocity.x<-200){
         mario.sprite.body.velocity.x = -200;
@@ -208,8 +298,10 @@ function update(){
         mario.sprite.body.velocity.x = -120;
       }
     }
+
     mario.doNothing = false;
-  }else if (cursors.right.isDown || touch['right']){
+
+  } else if (cursors.right.isDown || touch['right']){
     if(mario.direction!='right'){
       mario.sprite.scale.x *= -1;
       mario.direction = 'right';
@@ -218,7 +310,9 @@ function update(){
       (mario.sprite.animations.currentAnim.name!='left' && mario.sprite.body.onFloor())){
       mario.sprite.animations.play('left', 10, true);
     }
+
     mario.sprite.body.velocity.x += 5;
+
     if(runButton.isDown){
       if(mario.sprite.body.velocity.x>200){
         mario.sprite.body.velocity.x = 200;
@@ -228,6 +322,7 @@ function update(){
         mario.sprite.body.velocity.x = 120;
       }
     }
+
     mario.doNothing = false;
   }
   if (cursors.up.justDown || touch['up']){
@@ -256,5 +351,5 @@ function update(){
 }
 
 function render() {
-  game.debug.bodyInfo(mario.sprite, 32, 32);
+  // game.debug.bodyInfo(mario.sprite, 32, 32);
 }
